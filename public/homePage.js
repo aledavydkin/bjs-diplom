@@ -83,7 +83,7 @@ ApiConnector.getFavorites((response) => {
         favoritesWidget.fillTable(response.data);
         moneyManager.moneyManager(response.data);
     }
-};
+});
 
 favoritesWidget.addUserCallback = (addUserToFavorites = {id: null, name: null}) => {
     ApiConnector.addUserToFavorites(addUserToFavorites, (response) => {

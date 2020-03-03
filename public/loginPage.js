@@ -1,22 +1,22 @@
 "use strict";
 
 const userForm = new UserForm();  //Создание объекта класса
-userForm.loginFormCallback = (data = {password: null, login: null}) => {
+userForm.loginFormCallback = (data) => {
     ApiConnector.login(data, (response) => {
         if(response.success) {
             location.reload();
         } else {
-            console.error('Логин или пароль неверны');
+            userForm.setLoginErrorMessage('Логин и пароль неправильные')
         }
     })
 };
 
-userForm.registerFormCallback = (data = {password: null, login: null}) => {
+userForm.registerFormCallback = (data) => {
     ApiConnector.register(data, (response) => {
         if(response.success) {
             location.reload();
         } else {
-            console.error('Не удалось зарегистрироваться');
+            userForm.setRegisterErrorMessage('Не удалось зарегистрироваться')
         }
     })
 };
