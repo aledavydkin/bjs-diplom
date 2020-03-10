@@ -13,20 +13,23 @@ logoutButton.action = () => {
 };
 
 //Получение информации о пользователе
-function currentUser () {
-    ApiConnector.current = ((response) => {
-        if (response.success) {
-            ProfileWidget.showProfile(response.data)
-        }
-    });
-}
-
-currentUser ();
+const currentUser = (responsedata) => {
+    if (!responsedata) {
+        ApiConnector.current(response => {
+            if (response.success) {
+                ProfileWidget.showProfile(response.data);
+            }
+        });
+    } else {
+        ProfileWidget.showProfile(responsedata);
+    }
+};
+currentUser();
 
 //Получение текущих курсов валюты
 const ratesBoard = new RatesBoard();
 
-function valute() {
+function currency() {
     ApiConnector.getStocks((response) => {
         if (response.success) {
             ratesBoard.clearTable();
@@ -35,8 +38,8 @@ function valute() {
     })
 }
 
-valute();
-setInterval(valute, 6000);
+currency();
+setInterval(currency, 6000);
 
 const moneyManager = new MoneyManager();
 moneyManager.addMoneyCallback = (addMoney) => {
@@ -53,11 +56,7 @@ moneyManager.addMoneyCallback = (addMoney) => {
 
 
 //Реализуйте конвертирование валюты
-moneyManager.conversionMoneyCallback = (convertMoney = {
-    fromCurrency: null,
-    targetCurrency: null,
-    fromAmount: null
-}) => {
+moneyManager.conversionMoneyCallback = (convertMoney) => {
     ApiConnector.convertMoney(convertMoney, (response) => {
         if (response.success) {
             ProfileWidget.showProfile(response.data);
